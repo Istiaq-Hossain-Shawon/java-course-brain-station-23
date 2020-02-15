@@ -28,9 +28,7 @@ public class Team implements Serializable {
 	
 	@ManyToMany(fetch = FetchType.LAZY, targetEntity = User.class)
 	@JoinTable(name = "team_member", joinColumns = @JoinColumn(name = "team_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
-	private Set<User> users;
-	
-	
+	private Set<User> members;	
 	
 	@ManyToOne
 	private Country country;
