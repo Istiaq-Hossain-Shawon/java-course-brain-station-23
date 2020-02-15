@@ -30,6 +30,8 @@ public class Team implements Serializable {
 	@JoinTable(name = "team_member", joinColumns = @JoinColumn(name = "team_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
 	private Set<User> users;
 	
+	
+	
 	@ManyToOne
 	private Country country;
 	
