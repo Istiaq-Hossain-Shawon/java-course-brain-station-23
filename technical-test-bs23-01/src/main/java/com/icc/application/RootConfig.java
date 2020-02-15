@@ -8,7 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ComponentScan(basePackages = {
 		"com.icc.application.service",
-		"com.icc.application.config.persistence",
+		//"com.icc.application.config.persistence",
 		"com.icc.application.config.security",
 })
 
