@@ -7,11 +7,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 @ComponentScan(basePackages = {
-		"com.icc.applicaion.service",
-		"com.icc.applicaion.config.persistence",
-		"com.icc.applicaion.config.security",
+		"com.icc.application.service",
+		"com.icc.application.config.persistence",
+		"com.icc.application.config.security",
 })
-//@ComponentScan(basePackageClasses = {StudentService.class})
+
 public class RootConfig {
 	@Bean
 	GlobalExceptionHandler globalExceptionHandler() {
