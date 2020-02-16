@@ -76,5 +76,7 @@ public class User implements Serializable {
 	public void setName(String name) {
 		Name = name;
 	}
-
+	public User() {
+		super();
+	}
 }

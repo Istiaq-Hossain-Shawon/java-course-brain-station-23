@@ -78,9 +78,7 @@ public class CountryController {
 
 	@PostMapping("/country/search")
 	public String searchCountryByCountryCode(Model model, @ModelAttribute(name = "country") Country country) {
-		var courseList = new ArrayList();
-		courseList.add(countryService.getCountryByCountryName(country.getCountryName()));
-		model.addAttribute("course_list", courseList);
+		model.addAttribute("course_list", countryService.getCountryByCountryName(country.getCountryName()));
 		return "course/courses";
 	}
 

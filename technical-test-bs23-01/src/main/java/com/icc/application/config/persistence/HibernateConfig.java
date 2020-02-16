@@ -30,7 +30,7 @@ public class HibernateConfig {
     @Bean(value = "session")
     public Session getSession() {
         try{
-            session = createAndGetLocalSessionFactoryBean().openSession();
+            session = createAndGetLocalSessionFactoryBean().getCurrentSession();
         } catch(HibernateException e) {
             e.printStackTrace();
             System.out.println("Opening new session...");

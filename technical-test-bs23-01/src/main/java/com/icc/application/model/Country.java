@@ -21,7 +21,7 @@ public class Country implements Serializable {
 	public Country() {
 		super();
 	}
-	public Country(long id, String countryCode, String countryName) {
+	public Country(long id,  String countryName) {
 		super();
 		this.id = id;		
 		this.countryName = countryName;

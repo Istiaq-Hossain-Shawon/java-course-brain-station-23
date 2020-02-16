@@ -21,14 +21,14 @@ public class CountryService {
 		countryRepository.save(country);
 	}
 	private void checkCountryInDb(Country c) {
-		var course = countryRepository.findByCountryName(c.getCountryName());
+		Country course = countryRepository.findByCountryName(c.getCountryName()).get(0);
 		if (course != null) {
 			throw new ResourceAlreadyExistsException("Country Already exists");
 		}
 	}
 	public void saveEditedCountry(Country c) {
 
-		var country = countryRepository.findByCountryId(c.getId());
+		Country country = countryRepository.findByCountryId(c.getId());
 		BeanUtils.copyProperties(c, country);		
 		countryRepository.save(country);
 	}
@@ -38,7 +38,7 @@ public class CountryService {
 	
 
 	public Country getCountryByCountryId(long id) {
-		var country = countryRepository.findByCountryId(id);
+		Country country = countryRepository.findByCountryId(id);
 		return country;
 	}
 

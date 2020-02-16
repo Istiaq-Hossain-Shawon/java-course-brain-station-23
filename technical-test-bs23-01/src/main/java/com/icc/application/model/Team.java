@@ -58,5 +58,8 @@ public class Team implements Serializable {
 	}
 
 	public Team() {
+		super();
 	}
+
+	
 }
