@@ -15,7 +15,7 @@ public class Country implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private long id;
+	private long countryId;
 	@Column(name = "country_name", nullable = false)
 	private String countryName;
 	public Country() {
@@ -23,14 +23,14 @@ public class Country implements Serializable {
 	}
 	public Country(long id,  String countryName) {
 		super();
-		this.id = id;		
+		this.countryId = id;		
 		this.countryName = countryName;
 	}
 	public long getId() {
-		return id;
+		return countryId;
 	}
 	public void setId(long id) {
-		this.id = id;
+		this.countryId = id;
 	}
 	public String getCountryName() {
 		return countryName;

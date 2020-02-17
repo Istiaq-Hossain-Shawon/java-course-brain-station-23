@@ -26,7 +26,7 @@ public class TeamService {
 
 	public void insert(TeamDto teamdto) {
 		checkTeamInDb(teamdto);
-		Country country=countryRepository.findByCountryId(teamdto.getId());
+		Country country=countryRepository.findByCountryId(teamdto.getCountryId());
 		if (country == null) {
 			throw new ResourceAlreadyExistsException("Invalid Country.");
 		}
@@ -37,8 +37,8 @@ public class TeamService {
 	}
 
 	private void checkTeamInDb(TeamDto c) {
-		Team team = teamRepository.findByName(c.getName()).get(0);
-		if (team != null) {
+		List<Team> team = teamRepository.findByName(c.getName());
+		if (!team.isEmpty()) {
 			throw new ResourceAlreadyExistsException("Team Already exists");
 		}
 	}
@@ -47,10 +47,11 @@ public class TeamService {
 	}
 	public void update(TeamDto teamDto) {
 		Team team = teamRepository.findById(teamDto.getId()).get();
-		Country country=countryRepository.findByCountryId(teamDto.getId());
-		if (country == null) {
-			throw new ResourceAlreadyExistsException("Invalid Country.");
-		}
+		Country country=countryRepository.findByCountryId(teamDto.getCountryId());
+		
+		 if (country == null) { throw new
+		 ResourceAlreadyExistsException("Invalid Country."); }
+		
 		team.setName(teamDto.getName());
 		team.setCountry(country);	
 		teamRepository.save(team);

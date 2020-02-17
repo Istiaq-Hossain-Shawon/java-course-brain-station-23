@@ -48,7 +48,7 @@ public class CountryController {
 	public String coursesPage(Model model) {
 
 		model.addAttribute("country_list", countryService.getAllCounties());
-		model.addAttribute("country", new Country());
+		
 		model.addAttribute("message", "Showing all country...");
 		return "country/countries";
 
@@ -75,11 +75,15 @@ public class CountryController {
 
 		return "redirect:/country/countries";
 	}
-
+	@GetMapping("/country/detail")
+	public String detail(Model model, @RequestParam("id") long id) {
+		model.addAttribute("country", countryService.getCountryByCountryId(id));
+		return "country/detail";
+	}
 	@PostMapping("/country/search")
 	public String searchCountryByCountryCode(Model model, @ModelAttribute(name = "country") Country country) {
 		model.addAttribute("course_list", countryService.getCountryByCountryName(country.getCountryName()));
-		return "course/courses";
+		return "country/countries";
 	}
 
 }

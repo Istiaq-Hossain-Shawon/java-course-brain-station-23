@@ -42,9 +42,39 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
                 // Only users with allowed roles will be able to access individual endpoints.
 		.and()
 			.authorizeRequests()
-			.antMatchers("/course/add").hasRole("ADMIN")
-			.antMatchers("/course/show-all").hasAnyRole("ADMIN", "USER")
-			.antMatchers("/course/edit").hasAnyRole("USER")
+			.antMatchers("/iccEmployee/add").hasRole("ADMIN")
+			.antMatchers("/iccEmployee/show-all").hasAnyRole("ADMIN", "ICC_EMPLOYEE")
+			.antMatchers("/iccEmployee/edit").hasAnyRole("ICC_EMPLOYEE")
+			
+			.antMatchers("/country/**").hasRole("ICC_EMPLOYEE")
+					
+			
+			.antMatchers("/teamManager/add").hasRole("ICC_EMPLOYEE")
+			.antMatchers("/teamManager/show-all").hasAnyRole("ICC_EMPLOYEE","TEAM_MANAGER")
+			.antMatchers("/teamManager/edit").hasAnyRole("TEAM_MANAGER")			
+			
+			.antMatchers("/team/add").hasRole("TEAM_MANAGER")
+			.antMatchers("/team/show-all").hasAnyRole("TEAM_MANAGER")
+			.antMatchers("/team/edit").hasRole("TEAM_MANAGER")			
+			.antMatchers("/team/detail").hasAnyRole("ICC_EMPLOYEE","TEAM_MANAGER","CAPTAIN","PLAYER")
+			
+			.antMatchers("/captain/add").hasRole("TEAM_MANAGER")
+			.antMatchers("/captain/show-all").hasAnyRole("TEAM_MANAGER","CAPTAIN","PLAYER")
+			.antMatchers("/captain/edit").hasAnyRole("TEAM_MANAGER")			
+			
+			.antMatchers("/player/add").hasRole("TEAM_MANAGER")
+			.antMatchers("/player/show-all").hasAnyRole("TEAM_MANAGER","PLAYER","CAPTAIN")
+			.antMatchers("/player/edit").hasAnyRole("PLAYER")			
+			
+			.antMatchers("/coach/add").hasRole("TEAM_MANAGER")
+			.antMatchers("/coach/show-all").hasAnyRole("TEAM_MANAGER","COACH")
+			.antMatchers("/coach/edit").hasAnyRole("COACH")		
+						
+			.antMatchers("/register/index").permitAll()
+			.antMatchers("/register/add").permitAll()
+			
+			
+			
                 // Following line denotes that all requests must be authenticated.
                 // Hence, once a request comes to our application, we will check if the user is authenticated or not.
 			.anyRequest().authenticated()

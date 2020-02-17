@@ -9,12 +9,12 @@
 
 <h1>Add New Country</h1>
 
-<form:form action="${pageContext.request.contextPath }/country/add"
+<form:form action="${pageContext.request.contextPath }/country/edit"
            modelAttribute="country">
     
-    <form:input path="countryName"/> <br>
-
-    <input type="submit" name="submit" value="Add Country">
+ <form:input path="countryName"/> <br>
+ <form:input path="id" value="${id}" hidden="hidden"/>
+    <input type="submit" name="submit" value="Update Country">
 </form:form>
 
 </body>

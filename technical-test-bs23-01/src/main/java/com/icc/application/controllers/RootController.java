@@ -52,5 +52,12 @@ public class RootController {
 			user.setRole(Role.ROLE_TEAM_MANAGER);
 			userRepository.save(user);
 		}
+		if (userRepository.findByUsername("icc").isEmpty()) {
+			var user = new User();
+			user.setUsername("icc");
+			user.setPassword(passwordEncoder.encode("secret"));
+			user.setRole(Role.ROLE_ICC_EMPLOYEE);
+			userRepository.save(user);
+		}
 	}
 }

@@ -22,7 +22,7 @@ public class Team implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
-	private long id;
+	private long teamId;
 	@Column
 	private String name;
 	
@@ -34,11 +34,11 @@ public class Team implements Serializable {
 	private Country country;
 	
 	public long getId() {
-		return id;
+		return teamId;
 	}
 
 	public void setId(long id) {
-		this.id = id;
+		this.teamId = id;
 	}
 
 	public String getName() {

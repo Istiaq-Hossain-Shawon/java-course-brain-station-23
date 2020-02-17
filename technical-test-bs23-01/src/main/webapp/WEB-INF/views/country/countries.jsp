@@ -9,11 +9,11 @@
 <table class="table">
     <tr>
         <th>ID</th>
-    
+       
         <th>Country Name</th>
-            <th>Action</th>
+             <th>Action</th>
     </tr>
-    <c:forEach items="${countries }" var="country">
+    <c:forEach items="${country_list}" var="country">
         <tr>
             <th>${ country.id }</th>
             

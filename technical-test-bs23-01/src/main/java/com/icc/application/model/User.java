@@ -12,7 +12,7 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
-    private long id;
+    private long userId;
     @Column(name = "username")
     private String username;
     @Column(name = "Name")
@@ -39,11 +39,11 @@ public class User implements Serializable {
 		DOB = dOB;
 	}
 	public long getId() {
-        return id;
+        return userId;
     }
 
     public void setId(long id) {
-        this.id = id;
+        this.userId = id;
     }
 
     public String getUsername() {

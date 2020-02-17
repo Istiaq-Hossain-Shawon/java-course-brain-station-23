@@ -9,18 +9,17 @@
 <table class="table">
     <tr>
         <th>ID</th>
-    
+        <th>Team Name</th>
         <th>Country Name</th>
-            <th>Action</th>
+          <th>Action</th>
     </tr>
-    <c:forEach items="${countries }" var="country">
+    <c:forEach items="${teams}" var="team">
         <tr>
-            <th>${ country.id }</th>
-            
-            <th>${ country.countryName }</th>
-            
-             <th><a class="badge badge-primary" href="edit?id=${country.id }">Edit</a></th>
-             <th><a class="badge badge-primary" href="delete?id=${country.id }">Delete</a></th>
+            <th>${ team.id }</th>
+            <th>${ team.name }</th>
+            <th>${ team.country.countryName }</th>
+             <th><a class="badge badge-primary" href="edit?id=${team.id }">Edit</a></th>
+             <th><a class="badge badge-primary" href="delete?id=${team.id }">Delete</a></th>
         </tr>
     </c:forEach>
 </table>

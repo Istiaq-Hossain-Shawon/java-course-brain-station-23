@@ -43,7 +43,7 @@
                                                    class="form-control" name="password" placeholder="Password">
                 </div>
                 <button type="submit" class="btn btn-black">Login</button>
-                <button type="submit" class="btn btn-secondary">Register</button>
+               <a href="${pageContext.request.contextPath}/register/index" class="btn btn-secondary">Register</a>
             </form>
         </div>
     </div>

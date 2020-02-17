@@ -12,6 +12,8 @@ public class TeamDto   {
 	
 	private String name;
 	
+	private long countryId;
+	
 	private Country country;
 	
 	private Set<User> members;	
@@ -53,5 +55,13 @@ public class TeamDto   {
 
 
 	public TeamDto() {
+	}
+
+	public long getCountryId() {
+		return countryId;
+	}
+
+	public void setCountryId(long countryId) {
+		this.countryId = countryId;
 	}
 }

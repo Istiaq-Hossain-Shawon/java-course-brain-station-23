@@ -7,14 +7,20 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <body>
 
-<h1>Add New Country</h1>
+<h1>Add New Team</h1>
 
-<form:form action="${pageContext.request.contextPath }/country/add"
-           modelAttribute="country">
+<form:form action="${pageContext.request.contextPath }/team/add"
+           modelAttribute="team">
     
-    <form:input path="countryName"/> <br>
+    <form:input path="name"/> <br>
 
-    <input type="submit" name="submit" value="Add Country">
+
+
+<form:select path="countryId">
+    <form:options items="${countryList}" />
+</form:select>
+
+    <input type="submit" name="submit" value="Add Team">
 </form:form>
 
 </body>
