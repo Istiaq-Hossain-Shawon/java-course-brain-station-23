@@ -1,10 +1,9 @@
 package com.icc.application.model;
 
-import com.icc.applicaiton.enums.Role;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "tbl_user")
@@ -19,10 +18,21 @@ public class User implements Serializable {
     private String Name;   
 	@Column(name = "password", length = 512)
     private String password;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role")
-    private Role role;    
-    @Column(name = "Age")
+    
+	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER, targetEntity = Role.class)
+    @JoinTable(name = "user_role",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
+    )
+    private Set<Role> roles;
+	
+    public Set<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+	@Column(name = "Age")
     private int Age;
     @Column(name = "DOB")
     private Date DOB;
@@ -62,13 +72,7 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
+  
     public String getName() {
 		return Name;
 	}

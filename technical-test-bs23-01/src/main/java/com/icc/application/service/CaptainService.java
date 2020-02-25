@@ -1,11 +1,15 @@
 package com.icc.application.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.icc.application.model.Country;
+import com.icc.application.model.Role;
 import com.icc.application.model.User;
 import com.icc.application.repositories.UserRepository;
 import com.icc.application.dto.Captain;
@@ -18,6 +22,8 @@ public class CaptainService {
 
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private  AuthorityService authorityService;
 	
 	public void insert(Captain captain) {
 		checkCaptainInDb(captain);	
@@ -27,7 +33,14 @@ public class CaptainService {
 		user.setPassword(captain.getPassword());
 		user.setAge(captain.getAge());
 		user.setDOB(captain.getDOB());
+		
+		Set<Role> roles = new HashSet<>();
+		roles.add(authorityService.findByRoleName("ROLE_ADMIN"));
+		user.setRoles(roles);
+		
 		user.setRole(captain.getRole());
+		
+		
 		user.setUsername(captain.getUsername());
 		userRepository.save(user);
 	}	

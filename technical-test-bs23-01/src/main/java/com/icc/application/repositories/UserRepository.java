@@ -1,6 +1,6 @@
 package com.icc.application.repositories;
 
-import com.icc.applicaiton.enums.Role;
+
 import com.icc.application.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

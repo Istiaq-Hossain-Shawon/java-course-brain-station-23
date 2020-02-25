@@ -1,26 +1,28 @@
 package com.icc.application.controllers;
-
-
-import com.icc.applicaiton.enums.Role;
+import com.icc.application.model.Role;
 import com.icc.application.model.User;
 import com.icc.application.repositories.UserRepository;
+import com.icc.application.service.AuthorityService;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import java.util.stream.Stream;
-
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 public class RootController {
 
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
+	private final AuthorityService authorityService;
 
-	public RootController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+	public RootController(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityService authorityService) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
+		 this.authorityService = authorityService;
 	}
 
 	@GetMapping("/")
@@ -31,32 +33,50 @@ public class RootController {
 	@GetMapping("/login")
 	public String login(Model model, @RequestParam(name="error", required = false) String error) {
 		generateUsers();
+		generateRoles();
 		model.addAttribute("error", error);
 		return "auth/login";
 	}
-
+	 private void generateRoles() {
+	        authorityService.create(new Role(System.nanoTime(),"ROLE_ADMIN"));
+	        authorityService.create(new Role(System.nanoTime(), "ROLE_COACH"));
+	        authorityService.create(new Role(System.nanoTime(), "ROLE_PLAYER"));	        
+	        authorityService.create(new Role(System.nanoTime(), "ROLE_ICC_EMPLOYEE"));
+	    }
 	private void generateUsers() {
 
 		if (userRepository.findByUsername("admin").isEmpty()) {
 			var user = new User();
 			user.setUsername("admin");
 			user.setPassword(passwordEncoder.encode("secret"));
-			user.setRole(Role.ROLE_ADMIN);
+			
+			Set<Role> roles = new HashSet<>();
+			roles.add(authorityService.findByRoleName("ROLE_ADMIN"));
+			user.setRoles(roles);
+			
 			userRepository.save(user);
 		}
 
 		if (userRepository.findByUsername("user").isEmpty()) {
 			var user = new User();
 			user.setUsername("user");
-			user.setPassword(passwordEncoder.encode("secret"));
-			user.setRole(Role.ROLE_TEAM_MANAGER);
+			user.setPassword(passwordEncoder.encode("secret"));		
+			
+			Set<Role> roles = new HashSet<>();
+			roles.add(authorityService.findByRoleName("ROLE_TEAM_MANAGER"));
+			user.setRoles(roles);
+			
 			userRepository.save(user);
 		}
 		if (userRepository.findByUsername("icc").isEmpty()) {
 			var user = new User();
 			user.setUsername("icc");
 			user.setPassword(passwordEncoder.encode("secret"));
-			user.setRole(Role.ROLE_ICC_EMPLOYEE);
+						
+			Set<Role> roles = new HashSet<>();
+			roles.add(authorityService.findByRoleName("ROLE_ICC_EMPLOYEE"));
+			user.setRoles(roles);
+			
 			userRepository.save(user);
 		}
 	}

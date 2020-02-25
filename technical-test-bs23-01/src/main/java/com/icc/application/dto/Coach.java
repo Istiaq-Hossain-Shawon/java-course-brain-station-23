@@ -1,15 +1,25 @@
 package com.icc.application.dto;
 
 import java.util.Date;
+import java.util.Set;
 
-import com.icc.applicaiton.enums.Role;
+import com.icc.application.model.Role;
+
+
 
 public class Coach {
 	private long id;
 	private String username;
 	private String name;
 	private String password;
-	private Role role; 
+private Set<Role> roles;
+	
+    public Set<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
 	private int age;
 	private Date dob;
 	public long getId() {
@@ -31,12 +41,7 @@ public class Coach {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public Role getRole() {
-		return role;
-	}
-	public void setRole(Role role) {
-		this.role = role;
-	}
+	
 	public int getAge() {
 		return age;
 	}
