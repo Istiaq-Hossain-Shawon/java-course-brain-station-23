@@ -40,4 +40,7 @@ public class Role  implements GrantedAuthority, Serializable {
         this.role_id = id;
         this.roleName = role;
     }
+	public Role() {
+		super();
+	}
 }

@@ -1,9 +1,14 @@
 package com.icc.application.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.icc.application.model.Role;
 import com.icc.application.model.User;
 import com.icc.application.repositories.UserRepository;
 import com.icc.application.dto.Player;
@@ -16,6 +21,8 @@ public class PlayerService {
 
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private  AuthorityService authorityService;
 	public void insert(Player player) {
 		checkPlayerInDb(player);	
 		checkPlayerAndRoleInDb(player);		
@@ -24,7 +31,12 @@ public class PlayerService {
 		user.setPassword(player.getPassword());
 		user.setAge(player.getAge());
 		user.setDOB(player.getDOB());
-		user.setRole(player.getRole());
+		
+		Set<Role> roles = new HashSet<>();
+		roles.add(authorityService.findByRoleName("ROLE_PLAYER"));
+		user.setRoles(roles);	
+		
+		
 		user.setUsername(player.getUsername());
 		userRepository.save(user);
 	}	
@@ -34,7 +46,11 @@ public class PlayerService {
 		user.setPassword(player.getPassword());
 		user.setAge(player.getAge());
 		user.setDOB(player.getDOB());
-		user.setRole(player.getRole());				
+		
+		Set<Role> roles = new HashSet<>();
+		roles.add(authorityService.findByRoleName("ROLE_PLAYER"));
+		user.setRoles(roles);	
+		
 		userRepository.save(user);
 	}
 	public void delete(long id) {			
@@ -47,7 +63,11 @@ public class PlayerService {
 		player.setPassword(user.getPassword());
 		player.setAge(user.getAge());
 		player.setDOB(user.getDOB());
-		player.setRole(user.getRole());
+		
+		Set<Role> roles = new HashSet<>();
+		roles.add(authorityService.findByRoleName("ROLE_PLAYER"));
+		player.setRoles(roles);	
+		
 		player.setUsername(user.getUsername());
 		return player;
 	}
@@ -60,7 +80,11 @@ public class PlayerService {
 			player.setAge(user.getAge());
 			player.setDOB(user.getDOB());
 			player.setName(user.getName());
-			player.setRole(user.getRole());
+			
+			Set<Role> roles = new HashSet<>();
+			roles.add(authorityService.findByRoleName("ROLE_PLAYER"));
+			player.setRoles(roles);	
+			
 			player.setUsername(user.getUsername());
 			players.add(player);			
 		}
@@ -73,7 +97,8 @@ public class PlayerService {
 		}
 	}
 	private void checkPlayerAndRoleInDb(Player c) {
-		User user = userRepository.findByUsernameAndRole(c.getUsername(),c.getRole().toString()).get();
+		//User user = userRepository.findByUsernameAndRole(c.getUsername(),"ROLE_PLAYER").get();
+		User user = userRepository.findByUsername(c.getUsername()).get();
 		if (user != null) {
 			throw new ResourceAlreadyExistsException("Same user name with same role already exists");
 		}

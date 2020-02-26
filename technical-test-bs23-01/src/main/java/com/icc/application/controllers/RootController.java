@@ -32,8 +32,10 @@ public class RootController {
 	
 	@GetMapping("/login")
 	public String login(Model model, @RequestParam(name="error", required = false) String error) {
-		generateUsers();
+		
 		generateRoles();
+		generateUsers();
+		
 		model.addAttribute("error", error);
 		return "auth/login";
 	}

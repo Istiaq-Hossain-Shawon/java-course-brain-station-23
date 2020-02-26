@@ -26,12 +26,38 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         var userFromDb = userRepository.findByUsername(s)
                 .orElseThrow(() -> new UsernameNotFoundException("No user found with this email address."));
-        List<GrantedAuthority> authorities = new java.util.ArrayList<>(Collections.emptyList());
+        //List<GrantedAuthority> authorities = new java.util.ArrayList<>(Collections.emptyList());
 
-        authorities.add((GrantedAuthority) () -> userFromDb.getRole().name());
+        var authorities = userFromDb.getRoles();
+        
+        //authorities.add((GrantedAuthority) () -> userFromDb.getRole().name());
 
         return new User(userFromDb.getUsername(), userFromDb.getPassword(), authorities);
     }
+//    public void addUser(UserDto userDto) {
+//        if (userRepository.findByUsername(userDto.getUsername()).isEmpty()) {
+//
+//            var userEntity = new com.spring5.practice.model.User();
+//            BeanUtils.copyProperties(userDto, userEntity);
+//            userEntity.setPassword(passwordEncoder.encode(userDto.getPassword()));
+//
+//            Set<Authority> authorities = new HashSet<Authority>();
+//            for (var authorityName : userDto.getAuthorityNames()) {
+//                var authority = authorityService.findByRoleName(authorityName);
+//                authorities.add(authority);
+//            }
+//            userEntity.setAuthorities(authorities);
+//
+//            userRepository.save(userEntity);
+//
+//        } else {
+//            throw new ResourceAlreadyExistsException("Username is unavailable");
+//        }
+//    }
+//
+//    public void deleteUser(Long userId) {
+//        userRepository.deleteById(userId); // will be converted to soft delete
+//    }
     
     
 }

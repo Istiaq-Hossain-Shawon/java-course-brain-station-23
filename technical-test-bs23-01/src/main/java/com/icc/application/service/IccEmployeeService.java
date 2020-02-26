@@ -1,9 +1,14 @@
 package com.icc.application.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.icc.application.model.Role;
 import com.icc.application.model.User;
 import com.icc.application.repositories.UserRepository;
 import com.icc.application.dto.IccEmployee;
@@ -16,6 +21,8 @@ public class IccEmployeeService {
 
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private  AuthorityService authorityService;
 	
 	public void insert(IccEmployee iccEmployee) {
 		checkIccEmployeeInDb(iccEmployee);	
@@ -25,7 +32,12 @@ public class IccEmployeeService {
 		user.setPassword(iccEmployee.getPassword());
 		user.setAge(iccEmployee.getAge());
 		user.setDOB(iccEmployee.getDOB());
-		user.setRole(iccEmployee.getRole());
+		
+		Set<Role> roles = new HashSet<>();
+		roles.add(authorityService.findByRoleName("ROLE_COACH"));
+		user.setRoles(roles);	
+		
+		
 		user.setUsername(iccEmployee.getUsername());
 		userRepository.save(user);
 	}	
@@ -35,7 +47,12 @@ public class IccEmployeeService {
 		user.setPassword(iccEmployee.getPassword());
 		user.setAge(iccEmployee.getAge());
 		user.setDOB(iccEmployee.getDOB());
-		user.setRole(iccEmployee.getRole());				
+		
+		Set<Role> roles = new HashSet<>();
+		roles.add(authorityService.findByRoleName("ROLE_COACH"));
+		user.setRoles(roles);	
+		
+		
 		userRepository.save(user);
 	}
 	public void delete(long id) {			
@@ -48,7 +65,12 @@ public class IccEmployeeService {
 		iccEmployee.setPassword(user.getPassword());
 		iccEmployee.setAge(user.getAge());
 		iccEmployee.setDOB(user.getDOB());
-		iccEmployee.setRole(user.getRole());
+		
+		Set<Role> roles = new HashSet<>();
+		roles.add(authorityService.findByRoleName("ROLE_COACH"));
+		iccEmployee.setRoles(roles);	
+		
+		
 		iccEmployee.setUsername(user.getUsername());
 		return iccEmployee;
 	}
@@ -61,7 +83,11 @@ public class IccEmployeeService {
 			iccEmployee.setAge(user.getAge());
 			iccEmployee.setDOB(user.getDOB());
 			iccEmployee.setName(user.getName());
-			iccEmployee.setRole(user.getRole());
+			
+			Set<Role> roles = new HashSet<>();
+			roles.add(authorityService.findByRoleName("ROLE_COACH"));
+			iccEmployee.setRoles(roles);	
+			
 			iccEmployee.setUsername(user.getUsername());
 			teams.add(iccEmployee);			
 		}
@@ -74,7 +100,8 @@ public class IccEmployeeService {
 		}
 	}
 	private void checkIccEmployeeAndRoleInDb(IccEmployee c) {
-		User user = userRepository.findByUsernameAndRole(c.getUsername(),c.getRole().toString()).get();
+		//User user = userRepository.findByUsernameAndRole(c.getUsername(),"ROLE_ICC_EMPLOYEE").get();
+		User user = userRepository.findByUsername(c.getUsername()).get();
 		if (user != null) {
 			throw new ResourceAlreadyExistsException("Same user name with same role already exists");
 		}
