@@ -7,33 +7,73 @@
 <head>
     <meta charset="ISO-8859-1">
     <title>Spring By Practical Examples</title>
-    <link rel="stylesheet"	href="${pageContext.request.contextPath }/css/bootstrap.min.css" />
-<link rel="stylesheet"	href="${pageContext.request.contextPath }/css/style.css" />
-<link rel="stylesheet"	href="${pageContext.request.contextPath }/css/jquery-ui.css" />
-<link rel="stylesheet"	href="${pageContext.request.contextPath }/css/font-awesome.min.css" />
+
 
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">CricBean</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="${pageContext.request.contextPath}/team/show-all" >Teams</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="${pageContext.request.contextPath}/country/show-all">Countries</a>
-      </li>      
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-     
-     
-      <a href="${pageContext.request.contextPath}/logout" class="btn btn-outline-success my-2 my-sm-0">Logout</a>
-    </form>
-  </div>
-</nav>
+<header class="header" id="site-header">
+	<div class="page-title">
+		<h6>Cricbean </h6>
+	</div>
+	<div class="header-content-wrapper">
+		<img src="${pageContext.request.contextPath }/img/cricbean_logo.png" alt="Cricbean" style='    height: 70px;'>
+		<div class="control-block">
+			<div class="author-page author vcard inline-items more">
+				<div class="author-thumb">
+					<img alt="author" src="${pageContext.request.contextPath }/img/user.png" class="avatar" style='width: 50px;'>
+					<span class="icon-status online"></span>
+					<div class="more-dropdown more-with-triangle">
+						<div class="mCustomScrollbar" data-mcs-theme="dark">
+							<div class="ui-block-title ui-block-title-small">
+								<h6 class="title">Your Account</h6>
+							</div>
+							<ul class="account-settings">								
+								<li>
+									<a href="${pageContext.request.contextPath}/team/add">
+										<svg class="olymp-star-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="FAV PAGE"><use xlink:href="svg-icons/sprites/icons.svg#olymp-star-icon"></use></svg>
+
+										<span>Create Team</span>
+									</a>
+								</li>
+								<li>								 
+									<a href="${pageContext.request.contextPath}/logout">
+										<svg class="olymp-logout-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-logout-icon"></use></svg>
+
+										<span>Log Out</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+				<a href="02-ProfilePage.html" class="author-name fn">
+					<div class="author-title">
+						James Spiegel <svg class="olymp-dropdown-arrow-icon">
+						<use xlink:href="svg-icons/sprites/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
+					</div>
+					<span class="author-subtitle">SPACE COWBOY</span>
+				</a>
+			</div>
+
+		</div>
+	</div>
+
+</header>
+
+<!-- ... end Header-BP -->
+
+
+
+
+<!-- ... end Responsive Header-BP -->
+<div class="header-spacer"></div>
+
+
+
+
+
+<!-- Header-BP -->
+
 </body>

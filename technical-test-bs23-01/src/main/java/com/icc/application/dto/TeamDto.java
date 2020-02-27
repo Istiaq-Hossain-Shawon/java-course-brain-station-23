@@ -14,6 +14,47 @@ public class TeamDto   {
 	
 	private long countryId;
 	
+	private String logo;
+	
+	private String teamDescription;
+	
+	
+	public String getTeamDescription() {
+		return teamDescription;
+	}
+
+	public void setTeamDescription(String teamDescription) {
+		this.teamDescription = teamDescription;
+	}
+
+	private String type;
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	private String status;
+	
+	public String getLogo() {
+		return logo;
+	}
+
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	private Country country;
 	
 	private Set<User> members;	

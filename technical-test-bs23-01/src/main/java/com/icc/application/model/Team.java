@@ -36,6 +36,73 @@ public class Team implements Serializable {
 	public long getId() {
 		return teamId;
 	}
+	@Column(name = "logo")
+	private String logo;
+	
+	@Column(name = "status")
+	private String status;
+	@Column(name = "type")
+	private String type;
+	
+	@Column(name = "teamDescription")
+	private String teamDescription;
+	
+	
+	public String getTeamDescription() {
+		return teamDescription;
+	}
+
+	public void setTeamDescription(String teamDescription) {
+		this.teamDescription = teamDescription;
+	}
+	
+	public String getLogo() {
+		return logo;
+	}
+
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public long getTeamId() {
+		return teamId;
+	}
+
+	public void setTeamId(long teamId) {
+		this.teamId = teamId;
+	}
+
+	public Set<User> getMembers() {
+		return members;
+	}
+
+	public void setMembers(Set<User> members) {
+		this.members = members;
+	}
+
+	public String getTeamLogo() {
+		return logo;
+	}
+
+	public void setTeamLogo(String teamLogo) {
+		this.logo = teamLogo;
+	}
 
 	public void setId(long id) {
 		this.teamId = id;

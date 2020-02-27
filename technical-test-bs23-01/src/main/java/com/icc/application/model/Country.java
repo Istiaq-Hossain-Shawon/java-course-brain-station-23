@@ -18,6 +18,22 @@ public class Country implements Serializable {
 	private long countryId;
 	@Column(name = "country_name", nullable = false)
 	private String countryName;
+	
+	@Column(name = "logo", nullable = false)
+	private String logo;
+	
+	public long getCountryId() {
+		return countryId;
+	}
+	public void setCountryId(long countryId) {
+		this.countryId = countryId;
+	}
+	public String getLogo() {
+		return logo;
+	}
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
 	public Country() {
 		super();
 	}

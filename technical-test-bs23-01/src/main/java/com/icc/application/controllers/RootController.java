@@ -1,6 +1,7 @@
 package com.icc.application.controllers;
 import com.icc.application.model.Role;
 import com.icc.application.model.User;
+import com.icc.application.repositories.AuthorityRepository;
 import com.icc.application.repositories.UserRepository;
 import com.icc.application.service.AuthorityService;
 
@@ -16,13 +17,16 @@ import java.util.Set;
 public class RootController {
 
 	private final UserRepository userRepository;
+	private final AuthorityRepository authorityRepository;
+	
 	private final PasswordEncoder passwordEncoder;
 	private final AuthorityService authorityService;
 
-	public RootController(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityService authorityService) {
+	public RootController(AuthorityRepository authorityRepository,UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityService authorityService) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 		 this.authorityService = authorityService;
+		 this.authorityRepository = authorityRepository;
 	}
 
 	@GetMapping("/")
@@ -40,11 +44,27 @@ public class RootController {
 		return "auth/login";
 	}
 	 private void generateRoles() {
-	        authorityService.create(new Role(System.nanoTime(),"ROLE_ADMIN"));
-	        authorityService.create(new Role(System.nanoTime(), "ROLE_COACH"));
-	        authorityService.create(new Role(System.nanoTime(), "ROLE_PLAYER"));	        
-	        authorityService.create(new Role(System.nanoTime(), "ROLE_ICC_EMPLOYEE"));
-	    }
+		 authorityService.create(new Role(System.nanoTime(),"ROLE_ADMIN"));
+		 authorityService.create(new Role(System.nanoTime(),"ROLE_COACH"));
+		 authorityService.create(new Role(System.nanoTime(),"ROLE_PLAYER"));
+		 authorityService.create(new Role(System.nanoTime(),"ROLE_ICC_EMPLOYEE"));
+		 authorityService.create(new Role(System.nanoTime(),"ROLE_TEAM_MANAGER"));
+//		 if(authorityRepository.findByRoleName("ROLE_ADMIN").isEmpty()) {
+//			 authorityService.create(new Role(System.nanoTime(),"ROLE_ADMIN"));
+//		 }
+//		 if(authorityRepository.findByRoleName("ROLE_COACH").isEmpty()) {
+//			 authorityService.create(new Role(System.nanoTime(),"ROLE_COACH"));
+//		 }
+//		 if(authorityRepository.findByRoleName("ROLE_PLAYER").isEmpty()) {
+//			 authorityService.create(new Role(System.nanoTime(),"ROLE_PLAYER"));
+//		 }
+//		 if(authorityRepository.findByRoleName("ROLE_ICC_EMPLOYEE").isEmpty()) {
+//			 authorityService.create(new Role(System.nanoTime(),"ROLE_ICC_EMPLOYEE"));
+//		 }
+//		 if(authorityRepository.findByRoleName("ROLE_TEAM_MANAGER").isEmpty()) {
+//			 authorityService.create(new Role(System.nanoTime(),"ROLE_TEAM_MANAGER"));
+//		 }
+	}
 	private void generateUsers() {
 
 		if (userRepository.findByUsername("admin").isEmpty()) {

@@ -47,13 +47,14 @@ public class TeamService {
 	}
 	public void update(TeamDto teamDto) {
 		Team team = teamRepository.findById(teamDto.getId()).get();
-		Country country=countryRepository.findByCountryId(teamDto.getCountryId());
-		
+		Country country=countryRepository.findByCountryId(teamDto.getCountryId());		
 		 if (country == null) { throw new
-		 ResourceAlreadyExistsException("Invalid Country."); }
-		
+		 ResourceAlreadyExistsException("Invalid Country."); }		
 		team.setName(teamDto.getName());
-		team.setCountry(country);	
+		team.setCountry(country);
+		team.setTeamLogo(teamDto.getLogo());	
+		team.setTeamDescription(teamDto.getTeamDescription());	
+		team.setStatus(teamDto.getStatus());			
 		teamRepository.save(team);
 	}
 

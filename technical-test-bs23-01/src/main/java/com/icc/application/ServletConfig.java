@@ -1,7 +1,9 @@
 package com.icc.application;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -24,13 +26,25 @@ public class ServletConfig implements WebMvcConfigurer {
 		// Register resource handler for -
 
 		// IMAGES
-		registry.addResourceHandler("/images/**").addResourceLocations("/WEB-INF/resources/images/");
+		registry.addResourceHandler("/img/**").addResourceLocations("/WEB-INF/resources/img/");
 
 		// CSS
 		registry.addResourceHandler("/css/**").addResourceLocations("/WEB-INF/resources/css/");
 
 		// JAVASCRIPT
 		registry.addResourceHandler("/js/**").addResourceLocations("/WEB-INF/resources/js/");
+		
+		
+		// FONT
+		registry.addResourceHandler("/fonts/**").addResourceLocations("/WEB-INF/resources/fonts/");
+				
+		
 	}
+	@Bean
+    public CommonsMultipartResolver multipartResolver(){
+
+        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+        return resolver;
+    }
 
 }
