@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.icc.application.dto.Player;
+import com.icc.application.dto.PlayerDto;
 import com.icc.application.service.PlayerService;
 
 @Controller
@@ -21,13 +21,13 @@ public class PlayerController {
 	@GetMapping("/player/add")
 	public String getAddPlayerPage(Model model) {
 		model.addAttribute("pageTitle", "Add player");
-		model.addAttribute("player", new Player());
+		model.addAttribute("player", new PlayerDto());
 		model.addAttribute("message", "Add a new player");
 		return "player/add";
 	}
 
 	@PostMapping("/player/add")
-	public String addPlayer(Model model, @ModelAttribute(name = "player") Player player) {
+	public String addPlayer(Model model, @ModelAttribute(name = "player") PlayerDto player) {
 		playerService.insert(player);
 		model.addAttribute("message", "Player added successfully");
 		return "redirect:/player/show-all";
@@ -44,7 +44,7 @@ public class PlayerController {
 	@GetMapping("/player/players")
 	public String playersPage(Model model) {
 		model.addAttribute("player_list", playerService.getAll());
-		model.addAttribute("player", new Player());
+		model.addAttribute("player", new PlayerDto());
 		model.addAttribute("message", "Showing all player...");
 		return "player/players";
 	}
@@ -56,7 +56,7 @@ public class PlayerController {
 	}
 
 	@PostMapping("/player/edit")
-	public String saveEditedPlayer(Model model, @ModelAttribute(name = "player") Player player) {
+	public String saveEditedPlayer(Model model, @ModelAttribute(name = "player") PlayerDto player) {
 		playerService.update(player);
 		model.addAttribute("message", "Player saved successfully");
 		return "redirect:/player/players";
@@ -71,7 +71,7 @@ public class PlayerController {
 	}
 
 	@PostMapping("/player/search")
-	public String searchPlayerByPlayerCode(Model model, @ModelAttribute(name = "player") Player player) {
+	public String searchPlayerByPlayerCode(Model model, @ModelAttribute(name = "player") PlayerDto player) {
 
 		model.addAttribute("player_list", playerService.getAll());
 		return "player/players";

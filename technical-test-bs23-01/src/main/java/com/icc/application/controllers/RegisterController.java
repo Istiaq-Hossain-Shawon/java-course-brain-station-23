@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.icc.application.dto.Captain;
-import com.icc.application.dto.Player;
+import com.icc.application.dto.PlayerDto;
 import com.icc.application.dto.UserDto;
 import com.icc.application.model.User;
 import com.icc.application.service.CaptainService;

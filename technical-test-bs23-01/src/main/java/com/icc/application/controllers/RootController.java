@@ -44,11 +44,11 @@ public class RootController {
 		return "auth/login";
 	}
 	 private void generateRoles() {
-		 authorityService.create(new Role(System.nanoTime(),"ROLE_ADMIN"));
-		 authorityService.create(new Role(System.nanoTime(),"ROLE_COACH"));
-		 authorityService.create(new Role(System.nanoTime(),"ROLE_PLAYER"));
-		 authorityService.create(new Role(System.nanoTime(),"ROLE_ICC_EMPLOYEE"));
-		 authorityService.create(new Role(System.nanoTime(),"ROLE_TEAM_MANAGER"));
+//		 authorityService.create(new Role(System.nanoTime(),"ROLE_ADMIN"));
+//		 authorityService.create(new Role(System.nanoTime(),"ROLE_COACH"));
+//		 authorityService.create(new Role(System.nanoTime(),"ROLE_PLAYER"));
+//		 authorityService.create(new Role(System.nanoTime(),"ROLE_ICC_EMPLOYEE"));
+//		 authorityService.create(new Role(System.nanoTime(),"ROLE_TEAM_MANAGER"));
 //		 if(authorityRepository.findByRoleName("ROLE_ADMIN").isEmpty()) {
 //			 authorityService.create(new Role(System.nanoTime(),"ROLE_ADMIN"));
 //		 }
@@ -67,39 +67,39 @@ public class RootController {
 	}
 	private void generateUsers() {
 
-		if (userRepository.findByUsername("admin").isEmpty()) {
-			var user = new User();
-			user.setUsername("admin");
-			user.setPassword(passwordEncoder.encode("secret"));
-			
-			Set<Role> roles = new HashSet<>();
-			roles.add(authorityService.findByRoleName("ROLE_ADMIN"));
-			user.setRoles(roles);
-			
-			userRepository.save(user);
-		}
-
-		if (userRepository.findByUsername("user").isEmpty()) {
-			var user = new User();
-			user.setUsername("user");
-			user.setPassword(passwordEncoder.encode("secret"));		
-			
-			Set<Role> roles = new HashSet<>();
-			roles.add(authorityService.findByRoleName("ROLE_TEAM_MANAGER"));
-			user.setRoles(roles);
-			
-			userRepository.save(user);
-		}
-		if (userRepository.findByUsername("icc").isEmpty()) {
-			var user = new User();
-			user.setUsername("icc");
-			user.setPassword(passwordEncoder.encode("secret"));
-						
-			Set<Role> roles = new HashSet<>();
-			roles.add(authorityService.findByRoleName("ROLE_ICC_EMPLOYEE"));
-			user.setRoles(roles);
-			
-			userRepository.save(user);
-		}
+//		if (userRepository.findByUsername("admin").isEmpty()) {
+//			var user = new User();
+//			user.setUsername("admin");
+//			user.setPassword(passwordEncoder.encode("secret"));
+//			
+//			Set<Role> roles = new HashSet<>();
+//			roles.add(authorityService.findByRoleName("ROLE_ADMIN"));
+//			user.setRoles(roles);
+//			
+//			userRepository.save(user);
+//		}
+//
+//		if (userRepository.findByUsername("user").isEmpty()) {
+//			var user = new User();
+//			user.setUsername("user");
+//			user.setPassword(passwordEncoder.encode("secret"));		
+//			
+//			Set<Role> roles = new HashSet<>();
+//			roles.add(authorityService.findByRoleName("ROLE_TEAM_MANAGER"));
+//			user.setRoles(roles);
+//			
+//			userRepository.save(user);
+//		}
+//		if (userRepository.findByUsername("icc").isEmpty()) {
+//			var user = new User();
+//			user.setUsername("icc");
+//			user.setPassword(passwordEncoder.encode("secret"));
+//						
+//			Set<Role> roles = new HashSet<>();
+//			roles.add(authorityService.findByRoleName("ROLE_ICC_EMPLOYEE"));
+//			user.setRoles(roles);
+//			
+//			userRepository.save(user);
+//		}
 	}
 }

@@ -3,6 +3,7 @@ package com.icc.application.service;
 import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -45,20 +46,14 @@ public class CountryService {
 		Country country = countryRepository.findByCountryId(id);
 		return country;
 	}
-	public List<Country> getAllCounties() {
-		Pageable firstPageWithTwoElements = PageRequest.of(0, 2);
-		List<Country> countris=countryRepository.findByCountryNameContaining("",firstPageWithTwoElements);
-		
-		return countris;
-	}
-	public List<Country> getCountryByCountryName(CountryDto countryDto) {
-		if(countryDto.getSort()=="ND") {
-			Pageable firstPageWithTwoElements = PageRequest.of(0, 2,Sort.by("countryName").descending());
-			return countryRepository.findByCountryNameContaining(countryDto.getCountryName(),firstPageWithTwoElements);
-		}else {
-			Pageable firstPageWithTwoElements = PageRequest.of(0, 2,Sort.by("countryName").ascending());
-			return countryRepository.findByCountryNameContaining(countryDto.getCountryName(),firstPageWithTwoElements);
+	public Page<Country> getAllCountries(String searchText,int pageIndex,int rows,String sort) {
+		Pageable pageWithElements;
+		if(sort.equals("NA")) {			
+			pageWithElements = PageRequest.of(pageIndex, rows,Sort.by("countryName").ascending());
+		}else {			
+			pageWithElements = PageRequest.of(pageIndex, rows,Sort.by("countryName").descending());	
 		}		
-	}
-	
+		Page<Country> countries=countryRepository.findByCountryNameContaining(searchText,pageWithElements);		
+		return countries;
+	}	
 }

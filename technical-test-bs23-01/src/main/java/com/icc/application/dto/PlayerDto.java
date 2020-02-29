@@ -7,11 +7,38 @@ import com.icc.application.model.Role;
 
 
 
-public class Player {
+public class PlayerDto {
 	private long id;
 	private String username;
 	private String name;
 	private String password;
+	private String confirmPassword;
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+	private String logo;
+	private long teamId;
+public long getTeamId() {
+		return teamId;
+	}
+	public void setTeamId(long teamId) {
+		this.teamId = teamId;
+	}
+public String getLogo() {
+		return logo;
+	}
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+	public Date getDob() {
+		return dob;
+	}
+	public void setDob(Date dob) {
+		this.dob = dob;
+	}
 private Set<Role> roles;
 	
     public Set<Role> getRoles() {

@@ -3,6 +3,7 @@ package com.icc.application.model;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +16,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 @Table(name = "tbl_team")
 public class Team implements Serializable {
@@ -26,7 +30,7 @@ public class Team implements Serializable {
 	@Column
 	private String name;
 	
-	@ManyToMany(fetch = FetchType.LAZY, targetEntity = User.class)
+	@ManyToMany(fetch = FetchType.EAGER, targetEntity = User.class, cascade = CascadeType.ALL)
 	@JoinTable(name = "team_member", joinColumns = @JoinColumn(name = "team_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
 	private Set<User> members;	
 	

@@ -14,10 +14,14 @@
 
 <header class="header" id="site-header">
 	<div class="page-title">
-		<h6>Cricbean </h6>
+		
+		
 	</div>
+	
 	<div class="header-content-wrapper">
 		<img src="${pageContext.request.contextPath }/img/cricbean_logo.png" alt="Cricbean" style='    height: 70px;'>
+			
+		
 		<div class="control-block">
 			<div class="author-page author vcard inline-items more">
 				<div class="author-thumb">

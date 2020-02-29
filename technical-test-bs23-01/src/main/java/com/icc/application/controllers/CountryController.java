@@ -14,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -57,30 +59,29 @@ public class CountryController {
 	         country.setLogo(file.getOriginalFilename());
 	         countryService.addCountry(country);
 	 		model.addAttribute("message", "Country added successfully");
-	 		return "redirect:/country/show-all";
+	 		return "redirect:/country/show-all?_search=&_pageIndex=0&_rows=5&_sort=NA";
 	    }catch (IOException e) {
 	        	throw new RuntimeException(e.getMessage());
 	    }	
 
 	}
 
-	@GetMapping("/country/show-all")
-	public String showAllCountry(Model model) {
+	@RequestMapping(value = "country/show-all",params= {"_search","_pageIndex","_rows","_sort"},  method = RequestMethod.GET)
+	public String showAllCountry(Model model,
+			@RequestParam(value = "_search") String searchText,
+			@RequestParam(value = "_pageIndex") int pageIndex,
+			@RequestParam(value = "_rows") int rows,
+			@RequestParam(value = "_sort") String sort) {
+		 
+		 var countryPage=countryService.getAllCountries(searchText,pageIndex,rows,sort);		 
 		model.addAttribute("pageTitle", "country List");
-		model.addAttribute("countries", countryService.getAllCounties());
+		model.addAttribute("countries",countryPage.getContent());
 		model.addAttribute("message", "Showing all country...");
 		model.addAttribute("country", new Country());
-		model.addAttribute("pageIndex","1");
+		model.addAttribute("totalPages",countryPage.getTotalPages());
+		model.addAttribute("pageIndex",pageIndex);
 		return "/country/show-all";
 	}
-
-	@GetMapping("/country/countries")
-	public String coursesPage(Model model) {
-		model.addAttribute("country_list", countryService.getAllCounties());		
-		model.addAttribute("message", "Showing all country...");		
-		return "country/countries";
-	}
-
 	@GetMapping("/country/edit")
 	public String editCountryByCountryCode(Model model, @RequestParam("id") long id) {
 		model.addAttribute("country", countryService.getCountryByCountryId(id));
@@ -108,11 +109,6 @@ public class CountryController {
 		return "country/detail";
 	}
 	
-	@PostMapping("/country/search")
-	public String searchCountryByCountryCode(Model model, @ModelAttribute(name = "country") CountryDto country,@RequestParam("pageIndex") String pageIndex) {
-		model.addAttribute("course_list", countryService.getCountryByCountryName(country));		
-		model.addAttribute("pageIndex",pageIndex);
-		return "country/countries";
-	}
+	
 
 }

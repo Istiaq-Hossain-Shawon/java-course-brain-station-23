@@ -13,10 +13,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.icc.application.dto.PlayerDto;
 import com.icc.application.dto.TeamDto;
 import com.icc.application.model.Country;
 import com.icc.application.model.Team;
@@ -35,11 +39,11 @@ public class TeamController {
 	CountryService countryService;
 	@Autowired	ServletContext context;
 
-	@GetMapping("/team/add")
+	@GetMapping("team/add")
 	public String getAddTeamPage(Model model) {
 		model.addAttribute("pageTitle", "Add team");
 		model.addAttribute("team", new TeamDto());
-		var cuntries= countryService.getAllCounties();
+		var cuntries= countryService.getAllCountries("",0,100,"NA").getContent();
 		 Map< Long, String > Countries = new HashMap<Long, String>();	          
 	        for(Country item : cuntries){
 	        	Countries.put(item.getId(), item.getCountryName());	
@@ -67,32 +71,34 @@ public class TeamController {
 	         Files.write(path, bytes);
 	         team.setLogo(file.getOriginalFilename());
 	         teamService.insert(team);model.addAttribute("message", "Team added successfully");
-	         return "redirect:/team/show-all";
+	         return "redirect:/team/show-all?_search=&_pageIndex=0&_rows=5&_sort=NA";
 	    }catch (IOException e) {
 	        	throw new RuntimeException(e.getMessage());
 	    }	
 		
 	}
 
-	@GetMapping("/team/show-all")
-	public String showAllTeam(Model model) {
-		model.addAttribute("pageTitle", "team List");
-		model.addAttribute("teams", teamService.getAllTeams());
-		model.addAttribute("message", "Showing all team...");
-		return "team/show-all";
-	}
 
-	@GetMapping("/team/teams")
-	public String teamsPage(Model model) {
-		model.addAttribute("teams", teamService.getAllTeams());
-		model.addAttribute("team", new TeamDto());
-		model.addAttribute("message", "Showing all team...");
-		return "team/teams";
+	@RequestMapping(value = "team/show-all",params= {"_search","_pageIndex","_rows","_sort"},  method = RequestMethod.GET)
+	public String showAll(Model model,
+			@RequestParam(value = "_search") String searchText,
+			@RequestParam(value = "_pageIndex") int pageIndex,
+			@RequestParam(value = "_rows") int rows,
+			@RequestParam(value = "_sort") String sort) {
+		 
+		var teamPage=teamService.getAllTeams(searchText,pageIndex,rows,sort);		 
+		model.addAttribute("pageTitle", "team List");
+		model.addAttribute("teams",teamPage.getContent());
+		model.addAttribute("message", "Showing all teams...");
+		model.addAttribute("team", new Country());
+		model.addAttribute("totalPages",teamPage.getTotalPages());
+		model.addAttribute("pageIndex",pageIndex);
+		return "/team/show-all";
 	}
 
 	@GetMapping("/team/edit")
 	public String editTeam(Model model, @RequestParam("id") long id) {
-		var cuntries= countryService.getAllCounties();
+		var cuntries= countryService.getAllCountries("",0,100,"NA").getContent();
 		 Map< Long, String > Countries = new HashMap<Long, String>();	          
 	        for(Country item : cuntries){
 	        	Countries.put(item.getId(), item.getCountryName());	
@@ -112,7 +118,7 @@ public class TeamController {
 	}
 
 	@PostMapping("/team/editTeam")
-	public String saveEditedTeam(@ModelAttribute(name = "team") TeamDto team,@RequestParam("file") MultipartFile file,Model model) {
+	public String saveEditedTeam(@ModelAttribute(name = "team") TeamDto team,@RequestParam(name="file",required=false)  MultipartFile file,Model model) {
 		
 		if(team.getName() == null || team.getName().trim().isEmpty()) {
 			throw new RuntimeException("Please give team name");
@@ -121,7 +127,7 @@ public class TeamController {
 			throw new RuntimeException("Please give team  type");
 		}
 		var filePath="";
-		if(team.getLogo()=="") {
+		if(team.getLogo()==null || team.getLogo().isEmpty()) {
 			if (file.isEmpty()) {
 				 throw new RuntimeException("Please select a file to upload");
 			}
@@ -130,9 +136,9 @@ public class TeamController {
 				 String absoluteFilePath = context.getRealPath(Constants.UPLOADED_FOLDER);
 				 Path path = Paths.get(absoluteFilePath + file.getOriginalFilename());
 		         Files.write(path, bytes);
-		         team.setLogo(filePath);
+		         team.setLogo(file.getOriginalFilename());
 		         teamService.update(team);model.addAttribute("message", "Team saved successfully");
-		         return "redirect:/team/show-all";
+		         return "redirect:/team/show-all?_search=&_pageIndex=0&_rows=5&_sort=NA";
 		    }catch (IOException e) {
 		        	throw new RuntimeException(e.getMessage());
 		    }
@@ -140,15 +146,50 @@ public class TeamController {
 			teamService.update(team);model.addAttribute("message", "Team saved successfully");		
 		}	
 		
-		return "redirect:/team/show-all";
+		return "redirect:/team/show-all?_search=&_pageIndex=0&_rows=5&_sort=NA";
 	}
 	
 	@GetMapping("/team/detail")
 	public String detailTeam(Model model, @RequestParam("id") long id) {
-		model.addAttribute("team", teamService.getTeamByTeamId(id));
-		model.addAttribute("countryList", countryService.getAllCounties());		
+		var team= teamService.getTeamByTeamId(id);
+		model.addAttribute("team",team);
+		model.addAttribute("members", team.getMembers());
+		model.addAttribute("countryList", countryService.getAllCountries("",0,100,"NA").getContent());		
 		return "team/detail";
 	}
+	
+	@GetMapping("/team/{id}/add/player")
+	public String addPlayerTeam(Model model, @PathVariable(value="id") long id) {
+		model.addAttribute("team", teamService.getTeamByTeamId(id));
+		model.addAttribute("player", new PlayerDto());		
+		model.addAttribute("countryList", countryService.getAllCountries("",0,100,"NA").getContent());		
+		return "team/add-player";
+	}
+	@PostMapping("/team/{id}/add/player")
+	public String addPlayerTeam(@ModelAttribute(name = "player") PlayerDto playerDto,@RequestParam("file") MultipartFile file,Model model) {
+		if(playerDto.getName() == null || playerDto.getName().trim().isEmpty()) {
+			throw new RuntimeException("Please give  name");
+		}
+		if(playerDto.getPassword() == null || playerDto.getPassword().trim().isEmpty()) {
+			throw new RuntimeException("Please give   password.");
+		}		
+		if (file.isEmpty()) {
+			 throw new RuntimeException("Please select a file to upload");
+		}
+		 try {
+			 byte[] bytes = file.getBytes();
+			 String absoluteFilePath = context.getRealPath(Constants.UPLOADED_FOLDER);
+			 Path path = Paths.get(absoluteFilePath + file.getOriginalFilename());
+	         Files.write(path, bytes);
+	         playerDto.setLogo(file.getOriginalFilename());	         
+	         teamService.insertPlayer(playerDto);model.addAttribute("message", "Player added successfully");
+	         return "redirect:/team/players";
+	    }catch (IOException e) {
+	        	throw new RuntimeException(e.getMessage());
+	    }	
+		
+	}
+	
 	
 	@GetMapping("/team/delete")
 	public String deleteTeamByTeamId(Model model, @RequestParam("id") long id) {
@@ -163,10 +204,6 @@ public class TeamController {
 		return "redirect:/team/teams";
 	}	
 
-	@PostMapping("/team/search")
-	public String searchTeamByTeamCode(Model model, @ModelAttribute(name = "team") TeamDto team) {
-		model.addAttribute("team_list", teamService.getAllTeams());
-		return "team/teams";
-	}
+
 	
 }

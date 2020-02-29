@@ -4,18 +4,72 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE html>
 <html>
-<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-<body>
+<jsp:include page="/WEB-INF/views/common/sidebar.jsp" />
+	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
-<h1>Add New Country</h1>
 
-<form:form action="${pageContext.request.contextPath }/country/edit"
+<body>	
+
+	<div class="container">
+		<div class="row" style="margin-top: 10px;">
+			<div
+				class="col col-xl-12 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+				<div class="page-description">
+					<div class="icon">
+						<img class="olymp-star-icon left-menu-icon"
+							src="~/Content/img/icons8-online-money-transfer-64.png" />
+					</div>
+					<span>Here you ll edit a country 
+						</span>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div
+				class="col col-xl-12 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+				<div class="ui-block">
+					<div class="ui-block-title">
+						<h6 class="title">Create Country</h6>
+					</div>
+					<div class="ui-block-content">
+
+						<form:form
+							action="${pageContext.request.contextPath }/country/edit"
            modelAttribute="country">
-    
- <form:input path="countryName"/> <br>
- <form:input path="id" value="${id}" hidden="hidden"/>
-    <input type="submit" name="submit" value="Update Country">
-</form:form>
+
+
+							<div class="form-row">
+
+
+
+								<div class="form-group col-md-6">
+									<label for="countryName">country Name</label>
+									<form:input path="countryName" />
+								</div>
+<form:input path="id" value="${id}" hidden="hidden"/>
+
+							</div>
+
+							
+
+							<input type="submit" name="submit" class="btn btn-primary"
+								value="Update Country">
+						</form:form>
+
+
+					</div>
+				</div>
+
+
+			</div>
+
+
+		</div>
+	</div>
+
+
+
 
 </body>
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </html>

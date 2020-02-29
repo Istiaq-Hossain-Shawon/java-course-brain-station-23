@@ -19,6 +19,21 @@ public class User implements Serializable {
 	@Column(name = "password", length = 512)
     private String password;
     
+	@Column(name = "logo", nullable = true)
+	private String logo;
+	
+	public long getUserId() {
+		return userId;
+	}
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+	public String getLogo() {
+		return logo;
+	}
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
 	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER, targetEntity = Role.class)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
