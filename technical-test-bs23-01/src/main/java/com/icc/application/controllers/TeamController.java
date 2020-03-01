@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import javax.servlet.ServletContext;
 
@@ -22,10 +23,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.icc.application.dto.PlayerDto;
 import com.icc.application.dto.TeamDto;
+import com.icc.application.exceptions.ResourceAlreadyExistsException;
 import com.icc.application.model.Country;
 import com.icc.application.model.Team;
+import com.icc.application.service.AuthorityService;
 import com.icc.application.service.CountryService;
 import com.icc.application.service.TeamService;
+import com.icc.application.service.UserService;
 import com.icc.application.util.Constants;
 
 import antlr.collections.List;
@@ -38,6 +42,14 @@ public class TeamController {
 	@Autowired
 	CountryService countryService;
 	@Autowired	ServletContext context;
+	@Autowired
+	UserService userService;
+	
+	@Autowired
+	AuthorityService authorityService;
+	
+	
+	
 
 	@GetMapping("team/add")
 	public String getAddTeamPage(Model model) {
@@ -183,13 +195,20 @@ public class TeamController {
 	         Files.write(path, bytes);
 	         playerDto.setLogo(file.getOriginalFilename());	         
 	         teamService.insertPlayer(playerDto);model.addAttribute("message", "Player added successfully");
-	         return "redirect:/team/players";
+	         return "redirect:/team/detail?id="+playerDto.getTeamId();
 	    }catch (IOException e) {
 	        	throw new RuntimeException(e.getMessage());
-	    }	
+	    }		
+	}	
+	@GetMapping("/team/{teamId}/delete/player")
+	public String deletePlayerByTeamIdAndPlayerId(Model model, @PathVariable("teamId") long teamId,@RequestParam("playerId") long playerId) {
 		
+		var team= teamService.getTeamByTeamId(teamId);		
+		team.getMembers().removeIf(p->p.getUserId()==playerId);
+		teamService.updateTeamMember(team);
+		model.addAttribute("message", "team member deleted successfully");
+		return "redirect:/team/detail?id="+teamId;
 	}
-	
 	
 	@GetMapping("/team/delete")
 	public String deleteTeamByTeamId(Model model, @RequestParam("id") long id) {
@@ -197,13 +216,20 @@ public class TeamController {
 		model.addAttribute("message", "team deleted successfully");
 		return "redirect:/team/teams";
 	}
+	
 	@GetMapping("/team/deleteImage")
 	public String deleteTeamImageByTeamId(Model model,@RequestParam("logo") String logo, @RequestParam("id") long id) {
 		teamService.deleteById(id);
 		model.addAttribute("message", "team deleted successfully");
 		return "redirect:/team/teams";
 	}	
-
+	@GetMapping("/team/{id}/add/captain")
+	public String addCaptainTeam(Model model, @PathVariable(value="id") long id,@RequestParam("playerId") long playerId) {				
+		
+		teamService.updateCaptainInTeam(id,playerId);	
+		model.addAttribute("message", "team member added as captain successfully");
+		return "redirect:/team/detail?id="+id;
+	}
 
 	
 }

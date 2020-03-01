@@ -1,4 +1,5 @@
 <!-- GLOBAL HEADER -->
+<jsp:include page="/WEB-INF/views/common/sidebar.jsp" />
 <jsp:include page="common/header.jsp"/>
 
 

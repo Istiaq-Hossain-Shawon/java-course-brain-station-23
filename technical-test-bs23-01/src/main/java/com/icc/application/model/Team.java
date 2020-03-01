@@ -51,7 +51,40 @@ public class Team implements Serializable {
 	@Column(name = "teamDescription")
 	private String teamDescription;
 	
+	@Column(name = "Address")
+	private String address;
 	
+	@Column(name = "ContactNo")
+	private String contactNo;
+	
+	@Column(name = "email")
+	private String email;
+	
+	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getContactNo() {
+		return contactNo;
+	}
+
+	public void setContactNo(String contactNo) {
+		this.contactNo = contactNo;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public String getTeamDescription() {
 		return teamDescription;
 	}

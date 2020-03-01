@@ -1,0 +1,9 @@
+eclipse.preferences.version=1
+encoding//src/main/webapp/WEB-INF/views/common/header.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/country/add.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/country/edit.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/country/show-all.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/team/add.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/team/detail.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/team/edit.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/team/show-all.jsp=UTF-8

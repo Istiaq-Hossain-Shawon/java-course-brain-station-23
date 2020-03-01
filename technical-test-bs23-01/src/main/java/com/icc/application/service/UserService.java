@@ -11,6 +11,7 @@ import com.icc.application.repositories.UserRepository;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -56,8 +57,14 @@ public class UserService implements UserDetailsService {
 //    }
 //
 //    public void deleteUser(Long userId) {
-//        userRepository.deleteById(userId); // will be converted to soft delete
+//        userRepository.deleteById(userId); 
 //    }
+  public void update(com.icc.application.model.User userObj) {
+	  userRepository.save(userObj); 
+  }
+  public Optional<com.icc.application.model.User> getUserByUserId(Long id) {
+	  return userRepository.findById(id); 
+  }
     
     
 }

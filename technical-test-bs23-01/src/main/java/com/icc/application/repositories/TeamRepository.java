@@ -20,7 +20,8 @@ public interface TeamRepository extends JpaRepository<Team, Long>{
 	
 	List<Team> findByName(String teamName);
 	
-	List<Team> findByCountry_CountryId(long id);
+	//List<Team> findByCountry_CountryId(long id);
 	
 	Page<Team> findByNameContaining(String Name,Pageable pageable);	
+	
 }

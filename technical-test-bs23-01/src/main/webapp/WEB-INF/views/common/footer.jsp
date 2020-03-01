@@ -12,7 +12,7 @@
 	<!-- Main Styles CSS -->
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/main.min.css">
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/fonts.min.css">
-
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/jquery-ui.css">
 
 
 <script src="${pageContext.request.contextPath }/js/jquery-3.2.1.js"></script>
@@ -53,6 +53,7 @@
 <script defer src="${pageContext.request.contextPath }/fonts/fontawesome-all.js"></script>
 
  <script src="${pageContext.request.contextPath }/css/Bootstrap/dist/js/bootstrap.bundle.js"></script>
+ 
 
 </body>
 </html>

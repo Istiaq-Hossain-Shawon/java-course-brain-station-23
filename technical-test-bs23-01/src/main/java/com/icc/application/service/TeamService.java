@@ -59,13 +59,9 @@ public class TeamService {
 		teamRepository.save(team);
 	}
 	public void insertPlayer(PlayerDto playerDto) {		
-		User userObj=playerAdd(playerDto);
-		
-		Set<User> members = new HashSet<>();
-		members.add(userObj);
-		
+		User userObj=playerAdd(playerDto);		
 		Team team = teamRepository.findById(playerDto.getTeamId()).get();
-		team.setMembers(members);
+		team.getMembers().add(userObj);		
 		teamRepository.save(team);		
 	}
 	private User playerAdd(PlayerDto playerDto) {
@@ -81,7 +77,7 @@ public class TeamService {
 		userObj.setPassword(passwordEncoder.encode("secret"));
 		
 		Set<Role> roles = new HashSet<>();
-		roles.add(authorityService.findByRoleName("PLAYER"));
+		roles.add(authorityService.findByRoleName("ROLE_PLAYER"));
 		userObj.setRoles(roles);
 		
 		userObj.setUsername(playerDto.getUsername());					
@@ -111,7 +107,12 @@ public class TeamService {
 		team.setType(teamDto.getType());
 		teamRepository.save(team);
 	}
-
+	public void updateTeamMember(Team team) {
+		Team teamObj = teamRepository.findById(team.getId()).get();
+		teamObj.setMembers(team.getMembers());
+		teamRepository.save(teamObj);
+	}
+	
 	public Team getTeamByTeamId(long id) {
 		Team team = teamRepository.findById(id).get();
 		var members=team.getMembers();
@@ -127,5 +128,21 @@ public class TeamService {
 		}		
 		Page<Team> teams=teamRepository.findByNameContaining(searchText,pageWithElements);		
 		return teams;
+	}
+	public void updateCaptainInTeam(Long teamId,Long playerId) {
+		var team= teamRepository.findById(teamId).get();		
+		for (var element : team.getMembers()) {
+			for (var role : element.getRoles()) {
+			    if(role.getRoleName()=="ROLE_CAPTAIN") {
+			    	throw new ResourceAlreadyExistsException("Captain already existed.");			    	
+			    }
+			}
+		}		
+		var user =userRepository.findById(playerId).get();
+		var data=user.getRoles();
+		var role=authorityService.findByRoleName("ROLE_CAPTAIN");
+		data.add(role);
+		user.setRoles(data);
+		userRepository.save(user);	
 	}
 }
