@@ -53,18 +53,18 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
 			.antMatchers("/teamManager/show-all").hasAnyRole("ICC_EMPLOYEE","TEAM_MANAGER")
 			.antMatchers("/teamManager/edit").hasAnyRole("TEAM_MANAGER")			
 			
-			.antMatchers("/team/add").hasRole("TEAM_MANAGER")
-			.antMatchers("/team/show-all").hasAnyRole("TEAM_MANAGER")
-			.antMatchers("/team/edit").hasRole("TEAM_MANAGER")			
+			.antMatchers("/team/add").hasAnyRole("TEAM_MANAGER","ICC_EMPLOYEE")
+			.antMatchers("/team/show-all").hasAnyRole("TEAM_MANAGER","ICC_EMPLOYEE","CAPTAIN","PLAYER")
+			.antMatchers("/team/edit").hasAnyRole("TEAM_MANAGER","ICC_EMPLOYEE")			
 			.antMatchers("/team/detail").hasAnyRole("ICC_EMPLOYEE","TEAM_MANAGER","CAPTAIN","PLAYER")
 			
-			.antMatchers("/captain/add").hasRole("TEAM_MANAGER")
-			.antMatchers("/captain/show-all").hasAnyRole("TEAM_MANAGER","CAPTAIN","PLAYER")
+			.antMatchers("/captain/add").hasAnyRole("TEAM_MANAGER","ICC_EMPLOYEE")
+			.antMatchers("/captain/show-all").hasAnyRole("TEAM_MANAGER","CAPTAIN","PLAYER","ICC_EMPLOYEE")
 			.antMatchers("/captain/edit").hasAnyRole("TEAM_MANAGER")			
 			
-			.antMatchers("/player/add").hasRole("TEAM_MANAGER")
+			.antMatchers("/player/add").hasAnyRole("TEAM_MANAGER","ICC_EMPLOYEE")
 			.antMatchers("/player/show-all").hasAnyRole("TEAM_MANAGER","PLAYER","CAPTAIN")
-			.antMatchers("/player/edit").hasAnyRole("PLAYER")			
+			.antMatchers("/player/edit").hasAnyRole("PLAYER","ICC_EMPLOYEE")			
 			
 			.antMatchers("/coach/add").hasRole("TEAM_MANAGER")
 			.antMatchers("/coach/show-all").hasAnyRole("TEAM_MANAGER","COACH")

@@ -44,7 +44,7 @@ public class User implements Serializable {
 	public void setLogo(String logo) {
 		this.logo = logo;
 	}
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Role.class)
+	@ManyToMany(cascade = CascadeType.MERGE , fetch = FetchType.EAGER, targetEntity = Role.class)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
