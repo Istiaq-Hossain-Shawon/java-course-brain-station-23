@@ -39,11 +39,8 @@
 										<li><a
 											href="${pageContext.request.contextPath }/team/detail/${team.id}/players"
 											class="active">Players</a></li>
-										<li><a href="13-FavouritePage-About.html">Captain</a></li>
-										<li><a href="07-ProfilePage-Photos.html">Team
-												Managers</a></li>
-										<li><a href="09-ProfilePage-Videos.html">Team History</a>
-										</li>
+										<li><a href="${pageContext.request.contextPath }/team/${team.id}/teamManager">Team Manager</a></li>
+										
 									</ul>
 								</div>
 							</div>
@@ -94,34 +91,17 @@
 						<!-- W-Personal-Info -->
 
 						<ul class="widget w-personal-info item-block">
-							<li><span class="text">We are Rock Band from Los
-									Angeles, now based in San Francisco, come and listen to us
-									play!</span></li>
-							<li><span class="title">Created:</span> <span class="text">September
-									17th, 2013</span></li>
-							<li><span class="title">Based in:</span> <span class="text">San
-									Francisco, California</span></li>
-							<li><span class="title">Contact:</span> <a href="#"
-								class="text">greengoo_gigs@youmail.com</a></li>
-							<li><span class="title">Website:</span> <a href="#"
-								class="text">www.ggrock.com</a></li>
-							<li><span class="title">Favourites:</span> <a href="#"
-								class="text">5630 </a></li>
+							<li><span class="text">${team.address}!</span></li>
+							<li><span class="title">ContactNo:</span> <span class="text">
+							${team.contactNo}
+							</span></li>
+							<li><span class="title">Email:</span> <span class="text">${team.email}</span></li>
+							<li><span class="title">type:</span> <a href="#"
+								class="text">${team.type}</a></li>
+							
 						</ul>
 
-						<!-- ... end W-Personal-Info -->
-						<!-- W-Socials -->
-
-						<div class="widget w-socials">
-							<h6 class="title">Other Social Networks:</h6>
-							<a href="#" class="social-item bg-facebook"> <i
-								class="fab fa-facebook-f" aria-hidden="true"></i> Facebook
-							</a> <a href="#" class="social-item bg-twitter"> <i
-								class="fab fa-twitter" aria-hidden="true"></i> Twitter
-							</a> <a href="#" class="social-item bg-dribbble"> <i
-								class="fab fa-dribbble" aria-hidden="true"></i> Dribbble
-							</a>
-						</div>
+						
 
 
 						<!-- ... end W-Socials -->

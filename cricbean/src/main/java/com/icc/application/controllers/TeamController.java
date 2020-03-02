@@ -4,7 +4,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import javax.servlet.ServletContext;
@@ -23,11 +25,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.icc.application.dto.PlayerDto;
 import com.icc.application.dto.TeamDto;
+import com.icc.application.dto.TeamManagerDto;
 import com.icc.application.exceptions.ResourceAlreadyExistsException;
 import com.icc.application.model.Country;
+import com.icc.application.model.Role;
 import com.icc.application.model.Team;
+import com.icc.application.model.User;
 import com.icc.application.service.AuthorityService;
 import com.icc.application.service.CountryService;
+import com.icc.application.service.TeamManagerService;
 import com.icc.application.service.TeamService;
 import com.icc.application.service.UserService;
 import com.icc.application.util.Constants;
@@ -47,7 +53,8 @@ public class TeamController {
 	
 	@Autowired
 	AuthorityService authorityService;
-	
+	@Autowired
+	TeamManagerService teamManagerService;
 	
 	
 
@@ -156,8 +163,7 @@ public class TeamController {
 		    }
 		}else {
 			teamService.update(team);model.addAttribute("message", "Team saved successfully");		
-		}	
-		
+		}			
 		return "redirect:/team/show-all?_search=&_pageIndex=0&_rows=5&_sort=NA";
 	}
 	
@@ -165,7 +171,17 @@ public class TeamController {
 	public String detailTeam(Model model, @RequestParam("id") long id) {
 		var team= teamService.getTeamByTeamId(id);
 		model.addAttribute("team",team);
-		model.addAttribute("members", team.getMembers());
+		//model.addAttribute("members", team.getMembers());
+		//model.addAttribute("members", team.getMembers().stream().filter(a->a.getRoles().stream().anyMatch(o->o.getRoleName()=="ROLE_PLAYER")));
+		Set<User> members = new HashSet<User>() ;
+		for (User user :  team.getMembers()) {
+			for (Role role :user.getRoles()) {
+			    if(role.getRoleName().equals("ROLE_PLAYER")) {
+			    	members.add(user);			    	
+			    }
+			}
+		}
+		model.addAttribute("members", members);
 		model.addAttribute("countryList", countryService.getAllCountries("",0,100,"NA").getContent());		
 		return "team/detail";
 	}
@@ -210,7 +226,64 @@ public class TeamController {
 		return "redirect:/team/detail?id="+teamId;
 	}
 	
-	@GetMapping("/team/delete")
+	@GetMapping("/team/{id}/teamManager")
+	public String getTeamManager(Model model, @PathVariable("id") long id) {
+		var team= teamService.getTeamByTeamId(id);
+		model.addAttribute("team",team);
+		//model.addAttribute("members", team.getMembers().stream().filter(a->a.getRoles().stream().anyMatch(o->o.getRoleName()=="ROLE_TEAM_MANAGER")));
+		Set<User> members = new HashSet<User>() ;
+		for (User user :  team.getMembers()) {
+			for (Role role :user.getRoles()) {
+			    if(role.getRoleName().equals("ROLE_TEAM_MANAGER")) {
+			    	members.add(user);			    	
+			    }
+			}
+		}
+		model.addAttribute("members", members);
+		return "team/list-teamManager";
+	}
+	@GetMapping("/team/{id}/add/teamManager")
+	public String addTeamManagerTeam(Model model, @PathVariable(value="id") long id) {
+		model.addAttribute("team", teamService.getTeamByTeamId(id));
+		model.addAttribute("teamManager", new TeamManagerDto());		
+		model.addAttribute("countryList", countryService.getAllCountries("",0,100,"NA").getContent());		
+		return "team/add-teamManager";
+	}
+	@PostMapping("/team/{id}/add/teamManager")
+	public String addTeamManagerTeam(@ModelAttribute(name = "teamManager") TeamManagerDto teamManagerDto,@RequestParam("file") MultipartFile file,Model model) {
+		if(teamManagerDto.getName() == null || teamManagerDto.getName().trim().isEmpty()) {
+			throw new RuntimeException("Please give  name");
+		}
+		if(teamManagerDto.getPassword() == null || teamManagerDto.getPassword().trim().isEmpty()) {
+			throw new RuntimeException("Please give   password.");
+		}		
+		if (file.isEmpty()) {
+			 throw new RuntimeException("Please select a file to upload");
+		}
+		 try {
+			 byte[] bytes = file.getBytes();
+			 String absoluteFilePath = context.getRealPath(Constants.UPLOADED_FOLDER);
+			 Path path = Paths.get(absoluteFilePath + file.getOriginalFilename());
+	         Files.write(path, bytes);
+	         teamManagerDto.setLogo(file.getOriginalFilename());	         
+	         teamManagerDto.setId(teamManagerService.Add(teamManagerDto).getId());
+	         teamService.insertTeamManager(teamManagerDto);model.addAttribute("message", "Team manager added successfully");
+	         return "redirect:/team/detail?id="+teamManagerDto.getTeamId();
+	    }catch (IOException e) {
+	        	throw new RuntimeException(e.getMessage());
+	    }		
+	}		
+	@GetMapping("/team/{teamId}/delete/teamManager")
+	public String deleteTeamManagerByTeamIdAndTeamManagerId(Model model, @PathVariable("teamId") long teamId,@RequestParam("teamManagerId") long teamManagerId) {
+		
+		var team= teamService.getTeamByTeamId(teamId);		
+		team.getMembers().removeIf(p->p.getUserId()==teamManagerId);
+		teamService.updateTeamMember(team);
+		model.addAttribute("message", "team member deleted successfully");
+		return "redirect:/team/detail?id="+teamId;
+	}
+	
+	@GetMapping("/team/delete")	
 	public String deleteTeamByTeamId(Model model, @RequestParam("id") long id) {
 		teamService.deleteById(id);
 		model.addAttribute("message", "team deleted successfully");
@@ -229,7 +302,5 @@ public class TeamController {
 		teamService.updateCaptainInTeam(id,playerId);	
 		model.addAttribute("message", "team member added as captain successfully");
 		return "redirect:/team/detail?id="+id;
-	}
-
-	
+	}	
 }

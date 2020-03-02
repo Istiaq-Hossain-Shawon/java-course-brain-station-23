@@ -44,20 +44,7 @@
 					</a>
 				</li>
 				
-				<li>
-					<a href="${pageContext.request.contextPath }/teamManager/show-all?_search=&_pageIndex=0&_rows=5&_sort=NA" data-placement="right" data-original-title="OPEN TEAM MANAGER">
-						 <img class="olymp-star-icon left-menu-icon" src="${pageContext.request.contextPath }/img/details-40.png" />
-                            <span class="left-menu-title"></span>
-						
-					</a>
-				</li>
-				<li>
-					<a href="${pageContext.request.contextPath }/employee/show-all?_search=&_pageIndex=0&_rows=5&_sort=NA" data-placement="right" data-original-title="OPEN Employee">
-						 <img class="olymp-star-icon left-menu-icon" src="${pageContext.request.contextPath }/img/details-40.png" />
-                            <span class="left-menu-title"></span>
-						
-					</a>
-				</li>
+				
 			</ul>
 		</div>
 	</div>
@@ -95,20 +82,7 @@
                             <span class="left-menu-title" >Team</span>
                         </a>
 				</li>
-				<li>
-					
-					 <a href="${pageContext.request.contextPath }/teamManager/show-all?_search=&_pageIndex=0&_rows=5&_sort=NA"  data-toggle="tooltip" data-placement="right" data-original-title="OPEN Team">
-                            <img class="olymp-star-icon left-menu-icon" src="${pageContext.request.contextPath }/img/details-40.png" />
-                            <span class="left-menu-title" >Team Manager</span>
-                        </a>
-				</li>
-				<li>
-					
-					 <a href="${pageContext.request.contextPath }/employee/show-all?_search=&_pageIndex=0&_rows=5&_sort=NA"  data-toggle="tooltip" data-placement="right" data-original-title="OPEN Employee">
-                            <img class="olymp-star-icon left-menu-icon" src="${pageContext.request.contextPath }/img/details-40.png" />
-                            <span class="left-menu-title" >Employee</span>
-                        </a>
-				</li>
+				
 			</ul>
 
 			<div class="profile-completion">
@@ -139,7 +113,7 @@
 
 	<div class="fixed-sidebar-left sidebar--small" id="sidebar-left-responsive">
 		<a href="#" class="logo js-sidebar-open">
-			<img src="img/logo.png" alt="Olympus">
+			<img src="img/logo.png" alt="">
 		</a>
 
 	</div>
@@ -147,10 +121,10 @@
 	<div class="fixed-sidebar-left sidebar--large" id="sidebar-left-1-responsive">
 		<a href="#" class="logo">
 			<div class="img-wrap">
-				<img src="img/logo.png" alt="Olympus">
+				<img src="img/logo.png" alt="">
 			</div>
 			<div class="title-block">
-				<h6 class="logo-title">olympus</h6>
+				<h6 class="logo-title"> </h6>
 			</div>
 		</a>
 
@@ -274,31 +248,9 @@
 			</ul>
 
 			<div class="ui-block-title ui-block-title-small">
-				<h6 class="title">About Olympus</h6>
+				<h6 class="title">About </h6>
 			</div>
 
-			<ul class="about-olympus">
-				<li>
-					<a href="#">
-						<span>Terms and Conditions</span>
-					</a>
-				</li>
-				<li>
-					<a href="#">
-						<span>FAQs</span>
-					</a>
-				</li>
-				<li>
-					<a href="#">
-						<span>Careers</span>
-					</a>
-				</li>
-				<li>
-					<a href="#">
-						<span>Contact</span>
-					</a>
-				</li>
-			</ul>
 
 		</div>
 	</div>

@@ -7,12 +7,15 @@ import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.icc.application.model.Country;
 import com.icc.application.model.Role;
 import com.icc.application.model.User;
 import com.icc.application.repositories.UserRepository;
+import com.icc.application.dto.PlayerDto;
 import com.icc.application.dto.TeamManager;
+import com.icc.application.dto.TeamManagerDto;
 import com.icc.application.exceptions.ResourceAlreadyExistsException;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,23 +26,28 @@ public class TeamManagerService {
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
+	private PasswordEncoder passwordEncoder;
+	@Autowired
 	private  AuthorityService authorityService;
-	public void insert(TeamManager teamManager) {
-		checkTeamManagerInDb(teamManager);	
-		checkTeamManagerAndRoleInDb(teamManager);		
-		User user= new User();
-		user.setName(teamManager.getName());
-		user.setPassword(teamManager.getPassword());
-		user.setAge(teamManager.getAge());
-		user.setDOB(teamManager.getDOB());
+	public  User Add(TeamManagerDto teamManagerDto) {
+		var user=userRepository.findByUsername(teamManagerDto.getUsername());
+		if (!user.isEmpty()) {
+			throw new ResourceAlreadyExistsException("User name already existed.");
+		}
+		User userObj = new User();
+		userObj.setAge(teamManagerDto.getAge());
+		userObj.setDOB(teamManagerDto.getDob());
+		userObj.setLogo(teamManagerDto.getLogo());
+		userObj.setName(teamManagerDto.getName());
+		userObj.setPassword(passwordEncoder.encode(teamManagerDto.getPassword()));
 		
 		Set<Role> roles = new HashSet<>();
 		roles.add(authorityService.findByRoleName("ROLE_TEAM_MANAGER"));
-		user.setRoles(roles);	
+		userObj.setRoles(roles);
 		
-		
-		user.setUsername(teamManager.getUsername());
-		userRepository.save(user);
+		userObj.setUsername(teamManagerDto.getUsername());					
+		userRepository.save(userObj);
+		return userObj;
 	}	
 	public void update(TeamManager teamManager) {
 		User user = userRepository.findById(teamManager.getId()).get();

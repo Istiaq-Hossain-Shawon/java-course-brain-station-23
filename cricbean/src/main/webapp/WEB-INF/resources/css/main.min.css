@@ -300,7 +300,7 @@
 .control-block .author-title {
 	font-weight: 700;
 	font-size: 12px;
-	color: #fff
+	/* color: #fff */
 }
 
 .control-block .author-title>svg {
@@ -1250,6 +1250,9 @@
 	background: url(../img/landing-users.png);
 	-webkit-animation: sidedownscroll 30s linear infinite;
 	animation: sidedownscroll 30s linear infinite
+	background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .landing-page .content-bg-wrap:before {

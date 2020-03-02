@@ -21,6 +21,7 @@ import com.icc.application.model.Team;
 import com.icc.application.model.User;
 import com.icc.application.dto.PlayerDto;
 import com.icc.application.dto.TeamDto;
+import com.icc.application.dto.TeamManagerDto;
 import com.icc.application.repositories.CountryRepository;
 import com.icc.application.repositories.TeamRepository;
 import com.icc.application.repositories.UserRepository;
@@ -61,7 +62,19 @@ public class TeamService {
 	public void insertPlayer(PlayerDto playerDto) {		
 		User userObj=playerAdd(playerDto);		
 		Team team = teamRepository.findById(playerDto.getTeamId()).get();
-		team.getMembers().add(userObj);		
+		var data=userRepository.findById(userObj.getId()).get();
+		
+		Set<User> members = new HashSet<>();
+		members.add(data);
+		
+		
+		team.getMembers().forEach((temp) -> {
+			members.add(temp);
+
+        });
+		team.setMembers(members);
+		//team.getMembers().add(data);	
+		
 		teamRepository.save(team);		
 	}
 	private User playerAdd(PlayerDto playerDto) {
@@ -84,6 +97,16 @@ public class TeamService {
 		userRepository.save(userObj);
 		return userObj;
 	}
+	
+	
+	public void insertTeamManager(TeamManagerDto teamManagerDto) {	
+		var user=userRepository.findById(teamManagerDto.getId()).get();
+		Team team = teamRepository.findById(teamManagerDto.getTeamId()).get();
+		team.getMembers().add(user);		
+		teamRepository.save(team);		
+	}
+
+	
 	
 	private void checkTeamInDb(TeamDto c) {
 		List<Team> team = teamRepository.findByName(c.getName());

@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
@@ -30,7 +31,7 @@ public class Team implements Serializable {
 	@Column
 	private String name;
 	
-	@ManyToMany(fetch = FetchType.EAGER, targetEntity = User.class, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, targetEntity = User.class)
 	@JoinTable(name = "team_member", joinColumns = @JoinColumn(name = "team_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
 	private Set<User> members;	
 	

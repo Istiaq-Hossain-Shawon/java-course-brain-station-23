@@ -2,11 +2,13 @@
          pageEncoding="ISO-8859-1" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="ISO-8859-1">
-    <title>Spring By Practical Examples</title>
+    <title>Cricbean</title>
 
 
 </head>
@@ -54,10 +56,12 @@
 				</div>
 				<a href="02-ProfilePage.html" class="author-name fn">
 					<div class="author-title">
-						James Spiegel <svg class="olymp-dropdown-arrow-icon">
+					<sec:authentication var="principal" property="principal" />
+					${principal.username}
+						<svg class="olymp-dropdown-arrow-icon">
 						<use xlink:href="svg-icons/sprites/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
 					</div>
-					<span class="author-subtitle">SPACE COWBOY</span>
+					<span class="author-subtitle"></span>
 				</a>
 			</div>
 
